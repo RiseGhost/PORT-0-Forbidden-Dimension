@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 
 public class PauseMenu : MonoBehaviour
 {
+    
     private VisualTreeAsset visualTree;
     private PanelSettings panelSettings;
     private bool visible = false;
