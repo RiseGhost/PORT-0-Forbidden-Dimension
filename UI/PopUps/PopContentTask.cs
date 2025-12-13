@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 /*
@@ -8,5 +9,16 @@ using UnityEngine;
 
 public class PopContentTask : MonoBehaviour
 {
-    
+    [SerializeField] private TextMeshProUGUI LabelSubtitle;
+    [SerializeField] private TextMeshProUGUI LabelDescription, LabelDifficulty, LabelServiceType;
+    private Task task;
+
+    public void setTask(Task task)
+    {
+        this.task = task;
+        if (LabelSubtitle != null)      LabelSubtitle.text = task.getName();
+        if (LabelDescription != null)   LabelDescription.text = task.getTaskDescription().description;
+        if (LabelDifficulty != null)    LabelDifficulty.text = task.getDifficulty().ToString();
+        if (LabelServiceType != null)   LabelServiceType.text = task.getTaskDescription().type.ToString();
+    }
 }

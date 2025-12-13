@@ -67,6 +67,7 @@ public class PopUpTask : MonoBehaviour
 
     public void SetTask(Task task)
     {
-        MonoBehaviour.Instantiate(BuildContentPopUp.Build(),MainContent.transform);
+        PopContentTask pop = Instantiate(BuildContentPopUp.Build(),MainContent.transform).GetComponent<PopContentTask>();
+        pop.setTask(task);
     }
 }
