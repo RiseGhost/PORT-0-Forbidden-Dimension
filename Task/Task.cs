@@ -6,6 +6,7 @@ public interface Task
     public string getName();
     public TaskDescription getTaskDescription();
     public MiniGame getMiniGame();
+    public MiniGameTechnologyAreaGroup getTechnologyAreaGroup();
     public TaskDifficulty getDifficulty();
     public void Launch(MonoBehaviour anchor);
 }

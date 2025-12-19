@@ -26,6 +26,8 @@ public class TaskImplement : Task
         }
     }
 
+    public MiniGameTechnologyAreaGroup getTechnologyAreaGroup() { return technologyGroup; }
+
     virtual public void Launch(MonoBehaviour anchor)
     {
         NotificationTask noti = new NotificationTask(Name,taskDescription.description,Key.Tab,Key.X,anchor);

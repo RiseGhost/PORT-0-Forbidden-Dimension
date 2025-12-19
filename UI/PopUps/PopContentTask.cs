@@ -11,6 +11,7 @@ public class PopContentTask : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI LabelSubtitle;
     [SerializeField] private TextMeshProUGUI LabelDescription, LabelDifficulty, LabelServiceType;
+    [SerializeField] private TechnologyCardGroup technologyCardGroup;
     private Task task;
 
     public void setTask(Task task)
@@ -20,5 +21,7 @@ public class PopContentTask : MonoBehaviour
         if (LabelDescription != null)   LabelDescription.text = task.getTaskDescription().description;
         if (LabelDifficulty != null)    LabelDifficulty.text = task.getDifficulty().ToString();
         if (LabelServiceType != null)   LabelServiceType.text = task.getTaskDescription().type.ToString();
+
+        if (technologyCardGroup != null)    technologyCardGroup.setTechnologyAreaGroup(task.getTechnologyAreaGroup());
     }
 }
