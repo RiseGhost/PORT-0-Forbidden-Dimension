@@ -11,6 +11,8 @@ public class TaskImplement : Task
     [SerializeField] private TaskDescription taskDescription;
     [SerializeField] private MiniGameTechnologyAreaGroup technologyGroup;
     [SerializeField] private MiniGameType miniGameType = MiniGameType.WordRush;
+    private Client client = null;
+
     public float getTflops(){ return Tflops;}
     public virtual string getName(){ return Name; }
     public TaskDescription getTaskDescription(){ return taskDescription; }
@@ -27,10 +29,13 @@ public class TaskImplement : Task
     }
 
     public MiniGameTechnologyAreaGroup getTechnologyAreaGroup() { return technologyGroup; }
+    public Client GetClient(){ return client; }
 
     virtual public void Launch(MonoBehaviour anchor)
     {
         NotificationTask noti = new NotificationTask(Name,taskDescription.description,Key.Tab,Key.X,anchor);
+        Client client = ClientServer.random();
+        if (client != null) this.client = client;
         noti.setTask(this);
         noti.Show();
     }

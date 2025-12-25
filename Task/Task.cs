@@ -9,4 +9,5 @@ public interface Task
     public MiniGameTechnologyAreaGroup getTechnologyAreaGroup();
     public TaskDifficulty getDifficulty();
     public void Launch(MonoBehaviour anchor);
+    public Client GetClient();
 }
