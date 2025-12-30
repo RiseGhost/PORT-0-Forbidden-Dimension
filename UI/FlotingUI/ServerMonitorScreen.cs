@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,9 +11,9 @@ public struct EfficiencyUI
 
 public class ServerMonitorScreen : FloatingUI
 {
+    private GameObject Panel_Install_OS;
     private Server server;
     private EfficiencyUI efficiencyUI;
-    private float Efficiency = 0f;
     void Start()
     {
         ServerGameObject serverGameObject = GetComponent<ServerGameObject>();
@@ -25,6 +23,7 @@ public class ServerMonitorScreen : FloatingUI
 
     protected override void InitUI()
     {
+        Panel_Install_OS = UI.transform.GetChild(3).GetComponent<GameObject>();
         efficiencyUI.slider = transform.GetChild(transform.childCount - 1).GetChild(2).GetChild(0).GetComponent<Slider>();
         efficiencyUI.label = transform.GetChild(transform.childCount - 1).GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>();
 
@@ -34,6 +33,7 @@ public class ServerMonitorScreen : FloatingUI
 
     protected override void EntryUpdate()
     {
+        if (Panel_Install_OS != null) Panel_Install_OS.SetActive(!server.serverStatus.OS_Install);
         if (efficiencyUI.slider != null)
             efficiencyUI.slider.value = Mathf.Lerp(efficiencyUI.slider.value, (server.serverStatus.cpu.getMaxTFLOPS(server.serverStatus.fanStatus.GetValue())/server.serverStatus.cpu.getTFLOPS()), Time.deltaTime * 0.3f);
     

@@ -8,6 +8,7 @@ public class AlreadyShow : MonoBehaviour
     
     void Update()
     {
+        if (Camera.main == null) return;
         CameraTransform = Camera.main.transform;
         Vector3 direction = transform.position - CameraTransform.position;
         RaycastHit[] hits = Physics.RaycastAll(new Ray(CameraTransform.position,direction),direction.magnitude);

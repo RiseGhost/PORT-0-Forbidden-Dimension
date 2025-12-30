@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class ServerGameObject : MonoBehaviour, StorageEntity
 {
+    [SerializeField] private Canvas Warring;
     public Server server;
-
     public SaveItem GetSaveItem() { return server; }
 
     void Start()
@@ -21,6 +21,7 @@ public class ServerGameObject : MonoBehaviour, StorageEntity
     void FixedUpdate()
     {
         server.positionStatus = new PositionStatus(transform);
+        Warring.gameObject.SetActive(!server.serverStatus.isOperational());
     }
 
     public override bool Equals(object other)
