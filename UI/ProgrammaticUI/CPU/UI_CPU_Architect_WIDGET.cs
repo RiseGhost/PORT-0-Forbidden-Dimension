@@ -1,9 +1,5 @@
-using TMPro;
-using UnityEngine;
-
 public class UI_CPU_Architect_WIDGET : ToggleWidget<CPUArchitectStatus>
 {
-    [SerializeField] private TextMeshProUGUI label;
     void Start()
     {
         this.name = "CPU_ARCHITECT_WIDGET_" + getData().GetType().ToString();

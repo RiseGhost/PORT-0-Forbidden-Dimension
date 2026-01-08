@@ -11,6 +11,8 @@ public class GROUP_CPUS_Architect_Widget : GroupToggle<CPUArchitectStatus>
             c.setStatus(cpu);
             c.setSelectColor(selectColor);
             c.setDefaultColor(defaultColor);
+            c.setSelectTextColor(selectTextColor);
+            c.setDefaultTextColor(defaultTextColor);
             c.getWidget().group = getWidget();
         }
     }

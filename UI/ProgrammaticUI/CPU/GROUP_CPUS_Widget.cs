@@ -44,6 +44,8 @@ public class GROUP_CPUS_Widget : GroupToggle<ProcessorStatus>
             cpu.setStatus(processor);
             cpu.setDefaultColor(defaultColor);
             cpu.setSelectColor(selectColor);
+            cpu.setSelectTextColor(selectTextColor);
+            cpu.setDefaultTextColor(defaultTextColor);
         }
     }
 

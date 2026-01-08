@@ -6,6 +6,8 @@ public abstract class GroupToggle<E> : ProgrammaticWidget<ToggleGroup, object>
 {
     [SerializeField] protected Color selectColor;
     [SerializeField] protected Color defaultColor;
+    [SerializeField] protected Color selectTextColor;
+    [SerializeField] protected Color defaultTextColor;
     public E[] Status;
 
     public override void setTitle(string title)

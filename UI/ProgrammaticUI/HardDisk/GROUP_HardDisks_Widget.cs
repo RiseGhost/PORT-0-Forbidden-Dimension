@@ -14,6 +14,8 @@ public class GROUP_HardDisks_Widget : GroupToggle<HardDiscStatus>
             HardDisk_Widget.getWidget().group = getWidget();
             HardDisk_Widget.setSelectColor(selectColor);
             HardDisk_Widget.setDefaultColor(defaultColor);
+            HardDisk_Widget.setSelectTextColor(selectTextColor);
+            HardDisk_Widget.setDefaultTextColor(defaultTextColor);
         }
     }
 

@@ -13,6 +13,8 @@ public class GROUP_FANS_Widget : GroupToggle<FanStatus>
             f.getWidget().group = getWidget();
             f.setDefaultColor(defaultColor);
             f.setSelectColor(selectColor);
+            f.setSelectTextColor(selectTextColor);
+            f.setDefaultTextColor(defaultTextColor);
         }
     }
 

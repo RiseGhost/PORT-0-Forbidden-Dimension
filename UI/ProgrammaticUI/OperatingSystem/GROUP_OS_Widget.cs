@@ -14,6 +14,8 @@ public class GROUP_OS_Widget : GroupToggle<OperatingSystemStatus>
             os.setStatus(osStatus);
             os.setDefaultColor(defaultColor);
             os.setSelectColor(selectColor);
+            os.setSelectTextColor(selectTextColor);
+            os.setDefaultTextColor(defaultTextColor);
         }
     }
 

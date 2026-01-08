@@ -19,6 +19,8 @@ public class GROUP_MotherBoards_Widget : GroupToggle<MotherBoardStatus>
                 motherboard.setStatus(status);
                 motherboard.setSelectColor(selectColor);
                 motherboard.setDefaultColor(defaultColor);
+                motherboard.setSelectTextColor(selectTextColor);
+                motherboard.setDefaultTextColor(defaultTextColor);
             }
         }
     }

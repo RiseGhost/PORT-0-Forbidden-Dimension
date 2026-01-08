@@ -12,6 +12,8 @@ public class GROUP_CPUS_Mark_Widget : GroupToggle<CPUMarkStatus>
             c.getWidget().group = getWidget();
             c.setDefaultColor(defaultColor);
             c.setSelectColor(selectColor);
+            c.setSelectTextColor(selectTextColor);
+            c.setDefaultTextColor(defaultTextColor);
         }
     }
 

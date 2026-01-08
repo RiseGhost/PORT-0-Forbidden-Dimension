@@ -7,11 +7,13 @@ public class BtnInstallOS : MonoBehaviour
     [SerializeField] private Install_OS_UI InstallUI;
     [SerializeField] private Key AcceptKey = Key.Tab;
     private Slider slider;
+    private Server server;
     private float value = 0f;
     
     void Start()
     {
         slider = GetComponent<Slider>();
+        server = transform.parent.parent.parent.GetComponent<ServerGameObject>().server;
     }
 
     void FixedUpdate()
@@ -24,7 +26,8 @@ public class BtnInstallOS : MonoBehaviour
         if (slider.value >= 99f)
         {
             if (InstallUI == null) Destroy(transform.parent.gameObject);
-            Instantiate(InstallUI,Vector2.zero,Quaternion.identity);
+            Install_OS_UI UI = Instantiate(InstallUI,Vector2.zero,Quaternion.identity);
+            UI.setServer(server);
             Destroy(this.gameObject);
         }
     }
