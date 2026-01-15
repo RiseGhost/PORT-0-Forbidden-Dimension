@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class UI_MotherBoard_Widget : ToggleWidget<MotherBoardStatus>
 {
-    [SerializeField] private TextMeshProUGUI Model, Mark, Price, DisckNumber;
+    [SerializeField] private TextMeshProUGUI Mark, Price, DisckNumber;
     [SerializeField] private RawImage icon;
 
     public override void setDescription(string description)
@@ -15,10 +15,10 @@ public class UI_MotherBoard_Widget : ToggleWidget<MotherBoardStatus>
     public void setStatus(MotherBoardStatus status)
     {
         MotherBoard motherBoard = status.GetValue();
-        Model.text = motherBoard.Model;
-        Mark.text = motherBoard.motherBoardMark.ToString();
-        Price.text = motherBoard.Price.ToString() + " €";
-        DisckNumber.text = motherBoard.MaxDisk.ToString();
+        if (label != null) label.text = motherBoard.Model;
+        if (Mark != null) Mark.text = motherBoard.motherBoardMark.ToString();
+        if (Price != null) Price.text = motherBoard.Price.ToString() + " $";
+        if (DisckNumber != null) DisckNumber.text = motherBoard.MaxDisk.ToString();
         data = status;
     }
 }

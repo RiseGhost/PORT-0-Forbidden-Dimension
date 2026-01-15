@@ -21,7 +21,7 @@ public class UI_FAN_Widget : ToggleWidget<FanStatus>
     public void setStatus(FanStatus status)
     {
         Modelo.text = status.GetValue().modelo;
-        Price.text = status.GetValue().Price.ToString() + " €";
+        Price.text = status.GetValue().Price.ToString() + " $";
         TemperatureDecrement.text = "-" + status.GetValue().Temperature_Decrement.ToString() + "º C";
         if (icon != null) icon.texture = status.GetValue().icon;
         this.data = status;

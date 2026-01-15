@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class CameraSwitch : MonoBehaviour
@@ -10,19 +12,21 @@ public class CameraSwitch : MonoBehaviour
     {
         for(short i = 1; i < cameras.Length; i++)
         {
-            cameras[i].enabled = false;
+            cameras[i].gameObject.SetActive(false);
         }
     }
 
     void Update()
     {
+        if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null)
+            return;
         if (Keyboard.current[Key.C].wasPressedThisFrame) Switch();
     }
 
     public void Switch()
     {
-        cameras[index].enabled = false;
+        cameras[index].gameObject.SetActive(false);
         index = (index + 1) % cameras.Length;
-        cameras[index].enabled = true;
+        cameras[index].gameObject.SetActive(true);
     }
 }

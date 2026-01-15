@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class UI_HardDisk_Widget : ToggleWidget<HardDiscStatus>
 {
-    [SerializeField] private TextMeshProUGUI Name, Space, Price;
+    [SerializeField] private TextMeshProUGUI Space, Price;
 
     void Start()
     {
@@ -12,9 +12,9 @@ public class UI_HardDisk_Widget : ToggleWidget<HardDiscStatus>
 
     public void setStatus(HardDiscStatus status)
     {
-        Name.text = status.GetValue().Name;
-        Space.text = status.GetValue().TotalSpace.ToString();
-        Price.text = status.GetValue().Price.ToString();
+        if (label != null) label.text = status.GetValue().Name;
+        if (Space != null) Space.text = status.GetValue().TotalSpace.ToString();
+        if (Price != null) Price.text = status.GetValue().Price.ToString() + " $";
         this.data = status;
     }
 

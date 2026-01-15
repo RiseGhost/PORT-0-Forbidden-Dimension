@@ -17,8 +17,7 @@ public class FloatingUI : MonoBehaviour, FloatingUIInterface
 
     void Awake()
     {
-        if (UITemplate == null) Destroy(this);
-        Background = UITemplate.GetComponent<RawImage>();
+        if (UITemplate != null) Background = UITemplate.GetComponent<RawImage>();
     }
 
     void Update()
@@ -56,6 +55,7 @@ public class FloatingUI : MonoBehaviour, FloatingUIInterface
             InitUI();
             return;
         }
+        if (UITemplate == null) return;
         UI = Instantiate(UITemplate, transform);
         UI.transform.Translate(0, StartY, 0);
         if (Background == null) return;

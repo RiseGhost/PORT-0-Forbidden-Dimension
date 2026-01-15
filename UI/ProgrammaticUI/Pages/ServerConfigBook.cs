@@ -6,6 +6,7 @@ public class ServerConfigBook : MonoBehaviour, UIBook
 {
     [SerializeField] private UIPages[] pages;
     [SerializeField] private ShowCase showCase;
+    [SerializeField] private GameObject SpawnContent;
     private CPUPage CPUPage;
     private FansPage FansPage;
     private MotherBoardPage MotherBoardPage;
@@ -20,27 +21,27 @@ public class ServerConfigBook : MonoBehaviour, UIBook
         {
             if (page is CPUPage)
             {
-                CPUPage = Instantiate(page, transform).GetComponent<CPUPage>();
+                CPUPage = Instantiate(page, SpawnContent.transform).GetComponent<CPUPage>();
                 PageList.Add(CPUPage);
             }
             if (page is FansPage)
             {
-                FansPage = Instantiate(page, transform).GetComponent<FansPage>();
+                FansPage = Instantiate(page, SpawnContent.transform).GetComponent<FansPage>();
                 PageList.Add(FansPage);
             }
             if (page is MotherBoardPage)
             {
-                MotherBoardPage = Instantiate(page, transform).GetComponent<MotherBoardPage>();
+                MotherBoardPage = Instantiate(page, SpawnContent.transform).GetComponent<MotherBoardPage>();
                 PageList.Add(MotherBoardPage);
             }
             if (page is DiskPage)
             {
-                diskPage = Instantiate(page, transform).GetComponent<DiskPage>();
+                diskPage = Instantiate(page, SpawnContent.transform).GetComponent<DiskPage>();
                 PageList.Add(diskPage);
             }
             if (page is OSPage)
             {
-                ospage = Instantiate(page, transform).GetComponent<OSPage>();
+                ospage = Instantiate(page, SpawnContent.transform).GetComponent<OSPage>();
                 PageList.Add(ospage);
             }
             PageList.Last().gameObject.SetActive(false);
@@ -72,7 +73,6 @@ public class ServerConfigBook : MonoBehaviour, UIBook
         serverStatus.motherBoardStatus = MotherBoardPage.getMotherBoardWidget().getSelect();
         serverStatus.disks = diskPage.getDisksStatuses();
         serverStatus.os = ospage.getGROUP_OS_Widget().getSelect().GetValue();
-        Debug.Log("Book: CPU is null -> " + (CPUPage.getGroudCpuWidget().getSelect() == null));
         new Server(serverStatus);
         Close();
     }
@@ -93,12 +93,18 @@ public class ServerConfigBook : MonoBehaviour, UIBook
         if (PageList.Count() == 0) return;
         PageList[index].gameObject.SetActive(false);
         if (++index >= PageList.Count()) BackOver();
-        else PageList[index].gameObject.SetActive(true);
+        else
+            PageList[index].gameObject.SetActive(true);
     }
 
     public void backPage()
     {
-        if (index == 0 || PageList.Count() == 0) return;
+        if (index == 0)
+        {
+            Close();
+            return;
+        }
+        if (PageList.Count() == 0) return;
         PageList[index].gameObject.SetActive(false);
         PageList[--index].gameObject.SetActive(true);
     }

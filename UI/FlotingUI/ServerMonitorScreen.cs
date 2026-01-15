@@ -39,8 +39,5 @@ public class ServerMonitorScreen : FloatingUI
     
         if (efficiencyUI.label != null)
             efficiencyUI.label.text = Mathf.Round((server.serverStatus.cpu.getMaxTFLOPS(server.serverStatus.fanStatus.GetValue())/server.serverStatus.cpu.getTFLOPS()) * 100).ToString() + " %";
-    
-        Debug.Log("Math TFLOPS -> " + server.serverStatus.cpu.getTFLOPS());
-        Debug.Log("Math TFLOPS With FAN -> " + server.serverStatus.cpu.getMaxTFLOPS(server.serverStatus.fanStatus.GetValue()));
     }
 }

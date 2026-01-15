@@ -56,6 +56,7 @@ public class DiskPage : UIPages
         for(int i = 0; i < DiskNumber; i++)
         {
             GROUP_HardDisks_Widget disk_group = Instantiate(GROUP_HardDisks_Widget_template, ContentArea.transform);
+            disk_group.setSataNumber(i+1);
             disksWidget.Add(disk_group);
         }
     }

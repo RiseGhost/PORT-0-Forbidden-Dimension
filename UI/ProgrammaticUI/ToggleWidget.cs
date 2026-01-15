@@ -9,7 +9,7 @@ public abstract class ToggleWidget<E> : ProgrammaticWidget<Toggle, E>
     private Color selectTextColor;
     private Color defaultTextColor;
     [SerializeField] protected TextMeshProUGUI label;
-
+    
     public override void setTitle(string title)
     {
         this.title = title;

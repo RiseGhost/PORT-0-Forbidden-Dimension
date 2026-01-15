@@ -13,6 +13,11 @@ public class MotherBoardPage : UIPages
     void Update()
     {
         Next.interactable = (MotherBoards_Widget.getSelect() != null);
+        if (progressionPageWidget != null) ChangeProgressionWidget();
+    }
+
+    private void ChangeProgressionWidget()
+    {
         if (MotherBoards_Widget.getSelect() != motherBoardStatus)
         {
             if (MotherBoards_Widget.getSelect() == null) progressionPageWidget.DecrementValue(100);
@@ -25,7 +30,6 @@ public class MotherBoardPage : UIPages
 
     public void setCPUGroup(GROUP_CPUS_Widget cpus)
     {
-        Debug.Log("Groupo de CPU setados para a motherboard");
         MotherBoards_Widget.setGROUP_CPU(cpus);
     }
 }

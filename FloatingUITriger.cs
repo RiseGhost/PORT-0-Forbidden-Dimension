@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,19 +17,22 @@ public class FloatingUITriger : MonoBehaviour
     void FixedUpdate()
     {
         if (floatings.Count == 0) return;
-        float min = Vector3.Distance(transform.position, floatings.First().transform.position);
-        FloatingUIInterface floatingUI = floatings.First().GetComponent<FloatingUIInterface>();
-        foreach (var f in floatings)
+        try
         {
-            f.GetComponent<FloatingUIInterface>().hide();
-            float distance = Vector3.Distance(transform.position, f.transform.position);
-            if (distance < min)
+            float min = Vector3.Distance(transform.position, floatings.First().transform.position);
+            FloatingUIInterface floatingUI = floatings.First().GetComponent<FloatingUIInterface>();
+            foreach (var f in floatings)
             {
-                min = distance;
-                floatingUI = f.GetComponent<FloatingUIInterface>();
+                f.GetComponent<FloatingUIInterface>().hide();
+                float distance = Vector3.Distance(transform.position, f.transform.position);
+                if (distance < min)
+                {
+                    min = distance;
+                    floatingUI = f.GetComponent<FloatingUIInterface>();
+                }
             }
-        }
-        floatingUI.show();
+            floatingUI.show();
+        } catch(Exception e){}
     }
 
     void OnTriggerEnter(Collider other)
@@ -36,7 +40,6 @@ public class FloatingUITriger : MonoBehaviour
         FloatingUIInterface floating = other.gameObject.GetComponent<FloatingUIInterface>();
         if (floating == null) return;
         floatings.Add(other.gameObject);
-        Debug.Log("Floating UI detected");
     }
 
     void OnTriggerExit(Collider other)

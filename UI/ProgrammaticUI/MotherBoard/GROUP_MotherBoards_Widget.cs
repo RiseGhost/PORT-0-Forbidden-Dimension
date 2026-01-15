@@ -37,7 +37,6 @@ public class GROUP_MotherBoards_Widget : GroupToggle<MotherBoardStatus>
     {
         if (cpus == null)
         {
-            Debug.Log("Group de CPU NULL");
             return;
         }
         ProcessorStatus status = cpus.getSelect();

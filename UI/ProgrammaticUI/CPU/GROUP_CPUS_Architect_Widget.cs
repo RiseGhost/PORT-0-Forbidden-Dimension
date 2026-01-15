@@ -4,7 +4,8 @@ public class GROUP_CPUS_Architect_Widget : GroupToggle<CPUArchitectStatus>
 {
     [SerializeField] UI_CPU_Architect_WIDGET template;
     void Start()
-    {
+    {   
+        bool SelectChild = false;
         foreach (var cpu in Status)
         {
             var c = Instantiate(template, transform).GetComponent<UI_CPU_Architect_WIDGET>();
@@ -14,6 +15,11 @@ public class GROUP_CPUS_Architect_Widget : GroupToggle<CPUArchitectStatus>
             c.setSelectTextColor(selectTextColor);
             c.setDefaultTextColor(defaultTextColor);
             c.getWidget().group = getWidget();
+            if (AutoSelectChild && !SelectChild)
+            {
+                c.getWidget().Select();
+                SelectChild = true;
+            }
         }
     }
 

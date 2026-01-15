@@ -31,7 +31,7 @@ public class StorageItem
 
 public class StorageManager : MonoBehaviour
 {
-    private StorageItem storageItem = new StorageItem();
+    private static StorageItem storageItem = new StorageItem();
     void Awake()
     {
         Debug.Log("Storage Manager UP 🔝");
@@ -49,7 +49,7 @@ public class StorageManager : MonoBehaviour
             storageItem = new StorageItem();
         }
         DontDestroyOnLoad(this);
-        StartCoroutine(Saving());
+        //StartCoroutine(Saving());
     }
 
     private static List<GameObject> GetStoragesEntities()
@@ -62,20 +62,17 @@ public class StorageManager : MonoBehaviour
         return entities;
     }
 
-    private void Save()
+    public void Save(SaveItem item)
     {
         List<DataRoot> saveItems = storageItem.itens.Select((x) => JsonUtility.FromJson<DataRoot>(x)).ToList();
-        foreach (GameObject gameObject in GetStoragesEntities())
-        {
-            StorageEntity storageEntity = gameObject.GetComponent<StorageEntity>();
-            if (!saveItems.Contains(new DataRoot(storageEntity.GetSaveItem().getID())))
-            {
-                Debug.Log("Item salvo -> " + storageEntity.GetSaveItem().toJSON());
-                storageItem.itens.Add(storageEntity.GetSaveItem().toJSON());
-            }
-        }
+        if (saveItems.Contains(new DataRoot(item.getID()))) return;
+
+        Debug.Log("Item salvo -> " + item.toJSON());
+        storageItem.itens.Add(item.toJSON());
+
         PlayerPrefs.SetString("DataSave", JsonUtility.ToJson(storageItem));
         PlayerPrefs.Save();
+        Debug.Log("Save system -> ✅ Jogo Salvo");
     }
 
     public static void Load<T>() where T : SaveItem
@@ -109,11 +106,13 @@ public class StorageManager : MonoBehaviour
         }
         for(int i = 0; i < storageItem.itens.Count; i++)
         {
-            if (JsonUtility.FromJson<DataRoot>(storageItem.itens[i]).ID.Equals(data.getID()))
+            if (JsonUtility.FromJson<DataRoot>(storageItem.itens[i]).Equals(new DataRoot(data.getID())))
             {
-                storageItem.itens.RemoveAt(i);
-                storageItem.itens.Add(data.toJSON());
-                Save();
+                storageItem.itens[i] = data.toJSON();
+                Debug.Log("Save System -> 🔃 StorageItem update data.");
+                PlayerPrefs.SetString("DataSave", JsonUtility.ToJson(storageItem));
+                PlayerPrefs.Save();
+                Debug.Log(storageItem.itens[i]);
                 return;
             }
         }
@@ -123,6 +122,7 @@ public class StorageManager : MonoBehaviour
     {
         var manager = GameObject.FindAnyObjectByType<StorageManager>();
         manager.StopAllCoroutines();
+        storageItem = new StorageItem();
         foreach (GameObject entity in GetStoragesEntities())
         {
             Destroy(entity);
@@ -137,8 +137,7 @@ public class StorageManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSecondsRealtime(3f);
-            Debug.Log("✅ Jogo Salvo");
-            Save();
+            //Save();
         }
     }
 

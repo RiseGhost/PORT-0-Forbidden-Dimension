@@ -2,15 +2,24 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+    Description:
+        This class is responsible for managing the Canvas that allows the player to install an OS on the server.
+        At the end of all pages, the OS is installed on the server.
+        The Canvas has the colors corresponding to the OS.
+*/
+
 public class Install_OS_UI : MonoBehaviour
 {
     [SerializeField] private Install_OS_UI NextPage;
     [SerializeField] private Button NextButtom;
-    [SerializeField] private TextMeshProUGUI LabelOSName, LabelOSDescription;
+    [SerializeField] private TextMeshProUGUI LabelOSName, LabelOSDescription, WarringLabel;
     [SerializeField] private Image panel;
     [SerializeField] private RawImage Background;
-    
+    [SerializeField] private bool Install = false; // If the value are true, install de OS in server
+    [SerializeField] private TMP_InputField hostname, password;
     private Server server;
+
     void Start()
     {
         CameraFollow.LockRotate();
@@ -40,19 +49,44 @@ public class Install_OS_UI : MonoBehaviour
         if (Background != null)
         {
             Background.color = os.PrimaryColor;
-            Debug.Log("Background color changed");
         }
     }
 
     public void NextButtomFunc()
     {
+        if (WarringLabel != null && Install && hostname != null && hostname.text.Length < 3)
+        {
+            WarringLabel.text = "* Erro, The hostname must be longer than 3 characters";
+            return;
+        }
+        if (WarringLabel != null && Install && password != null && password.text.Length < 3)
+        {
+            WarringLabel.text = "* Erro, The password must be longer than 3 characters";
+            return;
+        }
+        if (WarringLabel != null) WarringLabel.text = "";
         if (NextPage == null)
         {
             CameraFollow.UnlockRotate();
+            if (Install && hostname != null && password != null && hostname.name.Length > 3 && password.name.Length > 3)
+            {
+                server.serverStatus.OS_Install = true;
+                server.serverStatus.HostName = hostname.name;
+                server.serverStatus.Password = password.name;
+                StorageManager storageManager = GameObject.FindGameObjectWithTag("StorageManager").GetComponent<StorageManager>();
+                if (storageManager == null)
+                {
+                    NotificationServer.AddNotification(new NotificationDefault("Save System","Erro to load save manager"));
+                    return;
+                }
+                storageManager.UpdateData(server);
+                NotificationServer.AddNotification(new NotificationDefault("OS Install","OS has been installed successfully."));
+            }
             Destroy(this.gameObject);
             return;
         }
         Install_OS_UI UI = Instantiate(NextPage,Vector3.zero,Quaternion.identity);
         UI.setServer(server);
+        Destroy(this.gameObject);
     }
 }

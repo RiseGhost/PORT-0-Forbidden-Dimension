@@ -9,7 +9,7 @@ public class UIPages : MonoBehaviour
 
     void Awake()
     {
-        book = transform.parent.GetComponent<UIBook>();
+        book = GetComponentInParent<UIBook>();
         if (book == null || Next == null) Destroy(this);
         Next.onClick.AddListener(OnNextClicked);
         if (Previous != null) Previous.onClick.AddListener(OnPreviousClicked);

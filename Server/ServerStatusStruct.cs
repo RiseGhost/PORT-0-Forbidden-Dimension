@@ -11,6 +11,7 @@ public class ServerStatusStruct
     public List<HardDiscStatus> disks = new List<HardDiscStatus>();
     public bool OS_Install = false;
     public string HostName = "";
+    public string Password = "";
 
     public void setCPU(ProcessorStatus status) { cpu = new CPU(status); }
     public void Install_OS() { OS_Install = true; }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -45,6 +46,8 @@ public class PlayerController : MonoBehaviour
         {
             //Instantiate(serverGameObject, transform.position + new Vector3(0,0,-3f), Quaternion.identity);
         }
+        if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null)
+            return;
         if (Keyboard.current[Key.H].wasPressedThisFrame)
         {
             StorageManager.DeletedStorage();

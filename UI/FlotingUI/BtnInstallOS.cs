@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -13,7 +14,18 @@ public class BtnInstallOS : MonoBehaviour
     void Start()
     {
         slider = GetComponent<Slider>();
-        server = transform.parent.parent.parent.GetComponent<ServerGameObject>().server;
+        server = GetComponentInParent<ServerGameObject>().server;
+        if (server == null) Destroy(gameObject);
+        if (server.serverStatus.OS_Install)
+        {
+            transform.parent.gameObject.SetActive(false);
+            Destroy(gameObject);
+        }
+    }
+
+    void OnDisable()
+    {
+        value = 0f;
     }
 
     void FixedUpdate()
@@ -28,7 +40,7 @@ public class BtnInstallOS : MonoBehaviour
             if (InstallUI == null) Destroy(transform.parent.gameObject);
             Install_OS_UI UI = Instantiate(InstallUI,Vector2.zero,Quaternion.identity);
             UI.setServer(server);
-            Destroy(this.gameObject);
+            value = 0f;
         }
     }
 }

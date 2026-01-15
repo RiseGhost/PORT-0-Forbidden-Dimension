@@ -11,6 +11,7 @@ public class ServerGameObject : MonoBehaviour, StorageEntity
         ServersPlace place = GameObject.FindGameObjectWithTag("ServersPlace").GetComponent<ServersPlace>();
         if (place == null) return;
         place.PutNewServer(this);
+        this.tag = "ServerGameObject";
     }
 
     public void Init(Server server)

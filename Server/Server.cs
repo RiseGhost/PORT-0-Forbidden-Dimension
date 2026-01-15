@@ -17,9 +17,8 @@ public class Server : SaveItem
         GameObject gameObject = Resources.Load<GameObject>(resource);
         var server = MonoBehaviour.Instantiate(gameObject, positionStatus.pos + new Vector3(0, 5, 0), Quaternion.identity);
         server.GetComponent<ServerGameObject>().Init(this);
-        Debug.Log("Server Create, serverStatus is null -> " + (serverStatus == null));
-        Debug.Log("Server Create, cpu is null -> " + (serverStatus.cpu == null));
         Debug.Log("Server Create, status -> " + JsonUtility.ToJson(serverStatus));
+        Save();
     }
 
     public void Load(string json)
@@ -42,8 +41,20 @@ public class Server : SaveItem
         return false;
     }
 
+    public void Update()
+    {
+        
+    }
+    
     public override string ToString()
     {
         return "";
+    }
+
+    public void Save()
+    {
+        StorageManager storageManager = GameObject.FindGameObjectWithTag("StorageManager").GetComponent<StorageManager>();
+        if (storageManager == null) return;
+        storageManager.Save(this);
     }
 }

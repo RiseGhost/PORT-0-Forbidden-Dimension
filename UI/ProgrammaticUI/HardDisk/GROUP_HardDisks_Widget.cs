@@ -1,12 +1,15 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GROUP_HardDisks_Widget : GroupToggle<HardDiscStatus>
 {
+    [SerializeField] private TextMeshProUGUI SataNumber;
     [SerializeField] private UI_HardDisk_Widget template;
 
     void Start()
     {
+        if (template == null) return;
         foreach(HardDiscStatus s in Status)
         {
             UI_HardDisk_Widget HardDisk_Widget = Instantiate(template, transform);
@@ -33,5 +36,10 @@ public class GROUP_HardDisks_Widget : GroupToggle<HardDiscStatus>
             if (disk.isSelect()) return disk.getData();
         }
         return null;
+    }
+
+    public void setSataNumber(int number)
+    {
+        if (SataNumber != null) SataNumber.text = number.ToString();
     }
 }

@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class UI_OS_Widget : ToggleWidget<OperatingSystemStatus>
 {
-    [SerializeField] private TextMeshProUGUI Name;
     [SerializeField] private RawImage icon;
     public override void setDescription(string description)
     {
@@ -13,8 +12,8 @@ public class UI_OS_Widget : ToggleWidget<OperatingSystemStatus>
 
     public void setStatus(OperatingSystemStatus status)
     {
-        if (Name != null) Name.text = status.GetValue().DisplayName;
-        if (icon != null) icon.texture = status.GetValue().icon;
+        if (label != null)  label.text = status.GetValue().DisplayName;
+        if (icon != null)   icon.texture = status.GetValue().icon;
         data = status;
     }
 }
