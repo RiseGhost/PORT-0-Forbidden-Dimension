@@ -48,7 +48,12 @@ public class ServerConfigBook : MonoBehaviour, UIBook
         }
         PageList.First().gameObject.SetActive(true);
         if (CPUPage != null && MotherBoardPage != null) MotherBoardPage.setCPUGroup(CPUPage.getGroudCpuWidget());
-        if (showCase == null) showCase = GameObject.FindGameObjectWithTag("ShowCase").GetComponent<ShowCase>();
+        if (showCase == null)
+        {
+            GameObject gameObject_ShowCase = GameObject.FindGameObjectWithTag("ShowCase");
+            if (gameObject_ShowCase == null) return;
+            showCase = gameObject_ShowCase.GetComponent<ShowCase>();
+        }
     }
 
     void Update()

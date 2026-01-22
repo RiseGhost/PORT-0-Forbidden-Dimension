@@ -1,27 +1,22 @@
-using System.Collections.Generic;
 using UnityEngine;
+
+/*
+    Description:
+        This class is responsible for putting the servers that spawn in order.
+*/
 
 public class ServersPlace : MonoBehaviour
 {
-    private static List<ServerGameObject> servers = new List<ServerGameObject>();
-    [SerializeField] private ushort lines = 1, columns = 1;
-    [SerializeField] private float gap = 0f;
-    private ushort capacity = 0;
+    [SerializeField] private float Max, gap;
+    [SerializeField] private Vector3 axi, rotation;
+    [SerializeField] private float SkyDrop = 0f;
+    private short count = 0;
 
-    void Awake()
+    public void put(ServerGameObject server)
     {
-        this.tag = "ServersPlace";
-        capacity = (ushort)(lines * columns);
-    }
-
-    public void PutNewServer(ServerGameObject server)
-    {
-        if (servers.Count >= capacity) return;
-        if (servers.Contains(server)) return;
-        servers.Add(server);
-        float column = ((servers.Count - 1) % columns);
-        float line = (int) ((servers.Count-1) / columns);
-        server.transform.position = transform.position + new Vector3(column + (gap * column), 6.0f, line + (gap * line));
-        server.transform.Rotate(0f, 180f, 0f);
+        if (count == Max) return;
+        server.transform.position = new Vector3(0,SkyDrop,0) + transform.position + (count + (count * gap)) * axi;
+        server.transform.rotation = Quaternion.Euler(rotation);
+        count++;
     }
 }

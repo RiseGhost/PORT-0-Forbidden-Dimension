@@ -14,6 +14,7 @@ public class FloatingUI : MonoBehaviour, FloatingUIInterface
     protected RawImage Background;
     protected Canvas UI;
     protected bool Entry = false;
+    private Vector3 defaultScale = Vector3.zero;
 
     void Awake()
     {
@@ -32,6 +33,7 @@ public class FloatingUI : MonoBehaviour, FloatingUIInterface
         if (UI == null) return;
         Vector3 targetPos = new Vector3(transform.position.x + DeltaXZ.x, FinalY, transform.position.z + DeltaXZ.y);
         UI.transform.position = Vector3.Lerp(UI.transform.position, targetPos, Time.deltaTime * UPspeed);
+        UI.transform.localScale = Vector3.Lerp(UI.transform.localScale, defaultScale,Time.deltaTime);
         if (Background == null) return;
         Background.color = Vector4.Lerp(Background.color, BackgroundColor, Time.deltaTime * UPspeed);
     }
@@ -41,6 +43,7 @@ public class FloatingUI : MonoBehaviour, FloatingUIInterface
         if (UI == null) return;
         Vector3 targetPos = new Vector3(transform.position.x, StartY, transform.position.z);
         UI.transform.position = Vector3.Lerp(UI.transform.position, targetPos, Time.deltaTime * DownSpeed);
+        UI.transform.localScale = Vector3.Lerp(UI.transform.localScale,UI.transform.localScale*0.1f,Time.deltaTime * DownSpeed);
         if (Vector3.Distance(targetPos, UI.transform.position) < 0.5f) UI.gameObject.SetActive(false);
         if (Background == null) return;
         Background.color = Vector4.Lerp(BackgroundColor, new Color(0,0,0,0), Time.deltaTime * DownSpeed);
@@ -58,6 +61,8 @@ public class FloatingUI : MonoBehaviour, FloatingUIInterface
         if (UITemplate == null) return;
         UI = Instantiate(UITemplate, transform);
         UI.transform.Translate(0, StartY, 0);
+        defaultScale = UI.transform.localScale;
+        UI.transform.localScale *= 0.1f;
         if (Background == null) return;
         Background = UI.GetComponent<RawImage>();
         Background.color = new Color(0, 0, 0, 0);

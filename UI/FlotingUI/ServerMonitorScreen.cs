@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,11 +34,14 @@ public class ServerMonitorScreen : FloatingUI
 
     protected override void EntryUpdate()
     {
-        if (Panel_Install_OS != null) Panel_Install_OS.SetActive(!server.serverStatus.OS_Install);
-        if (efficiencyUI.slider != null)
-            efficiencyUI.slider.value = Mathf.Lerp(efficiencyUI.slider.value, (server.serverStatus.cpu.getMaxTFLOPS(server.serverStatus.fanStatus.GetValue())/server.serverStatus.cpu.getTFLOPS()), Time.deltaTime * 0.3f);
-    
-        if (efficiencyUI.label != null)
-            efficiencyUI.label.text = Mathf.Round((server.serverStatus.cpu.getMaxTFLOPS(server.serverStatus.fanStatus.GetValue())/server.serverStatus.cpu.getTFLOPS()) * 100).ToString() + " %";
+        try
+        {
+            if (Panel_Install_OS != null) Panel_Install_OS.SetActive(!server.serverStatus.OS_Install);
+            if (efficiencyUI.slider != null)
+                efficiencyUI.slider.value = Mathf.Lerp(efficiencyUI.slider.value, (server.serverStatus.cpu.getMaxTFLOPS(server.serverStatus.fanStatus.GetValue())/server.serverStatus.cpu.getTFLOPS()), Time.deltaTime * 0.3f);
+        
+            if (efficiencyUI.label != null)
+                efficiencyUI.label.text = Mathf.Round((server.serverStatus.cpu.getMaxTFLOPS(server.serverStatus.fanStatus.GetValue())/server.serverStatus.cpu.getTFLOPS()) * 100).ToString() + " %";
+        } catch (Exception e) {}
     }
 }
