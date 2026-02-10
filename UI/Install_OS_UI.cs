@@ -71,8 +71,8 @@ public class Install_OS_UI : MonoBehaviour
             if (Install && hostname != null && password != null && hostname.name.Length > 3 && password.name.Length > 3)
             {
                 server.serverStatus.OS_Install = true;
-                server.serverStatus.HostName = hostname.name;
-                server.serverStatus.Password = password.name;
+                server.serverStatus.HostName = hostname.text;
+                server.serverStatus.Password = password.text;
                 StorageManager storageManager = GameObject.FindGameObjectWithTag("StorageManager").GetComponent<StorageManager>();
                 if (storageManager == null)
                 {

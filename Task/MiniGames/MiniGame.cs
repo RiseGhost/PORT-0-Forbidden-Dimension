@@ -14,10 +14,12 @@
 public interface MiniGame
 {
     public bool isCompleted();
+    public void setCompleted();
+    public float setScore(float score);
     public float getScore();
     public string getName();
     public TaskType getTaskType();
     public MiniGameTechnologyAreaGroup getMiniGameTechnologyAreaGroup();
     public void save();
-    public void Start();
+    public void Start(Server server, Task task);
 }

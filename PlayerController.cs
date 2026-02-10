@@ -61,6 +61,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null)
+            return;
         if (Camera.main == null) return;
         Vector3 move = Camera.main.transform.rotation * new Vector3(action.ReadValue<Vector2>().x, 0, action.ReadValue<Vector2>().y);
         move.y = 0f;

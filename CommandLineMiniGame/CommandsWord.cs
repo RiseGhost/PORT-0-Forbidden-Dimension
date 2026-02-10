@@ -50,10 +50,12 @@ public class CommandWords
     private VisualElement father_root; // Root of father UI Element
     private List<WordStatus> words = new List<WordStatus>();
     private VisualElement spawnWordsElement;
+    private bool PhrasesReady = false;
     private uint score = 0;
 
     public void init()
     {
+        words.Clear();
         var wordsMatrix = commands.Select(x => new { Phrases = x.Phrases.Split(" "), Score = x.Score });
         foreach (var wm in wordsMatrix)
         {
@@ -65,6 +67,16 @@ public class CommandWords
                 words.Add(wordStatus);
             }
         }
+    }
+
+    public void reset()
+    {
+        score = 0;
+        CardsMove.Clear();
+        completeCommands.Clear();
+        father_root.Q<VisualElement>("History").Clear();
+        init();
+        PhrasesReady = true;
     }
 
     public void setVisualRoot(VisualElement father_root)
@@ -105,6 +117,7 @@ public class CommandWords
 
     public void SpawnWord()
     {
+        if (!PhrasesReady) return;
         if (CardsMove.Count != 0 && !CardsMove.First().isCompesed()) return;
         var next = NextWord();
         if (next == null) return;
@@ -134,4 +147,12 @@ public class CommandWords
     public bool CompleteLevel() { return commands.Count == completeCommands.Count; }
 
     public uint getScore(){ return score; }
+
+    public void setPhrases(List<TeachPhrases> phrases)
+    {
+        if (phrases == null || phrases.Count == 0) return;
+        commands = phrases;
+        init();
+        PhrasesReady = true;
+    }
 }

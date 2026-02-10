@@ -16,7 +16,7 @@ using UnityEngine;
 [System.Serializable]
 public class MiniGameTechnologyAreaGroup
 {
-    [SerializeField] private MiniGameTechnologyArea[] group;
+    [SerializeField] public MiniGameTechnologyArea[] group;
 
     public MiniGameTechnologyAreaGroup(MiniGameTechnologyArea[] group)
     {

@@ -41,6 +41,7 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
+        if (Camera.main == null) return;
         if (scrollAction == null) return;
         Vector2 scroll = scrollAction.ReadValue<Vector2>();
         zoom += scroll.y * Time.deltaTime * zoom_sensitivity;
@@ -52,6 +53,7 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
+        if (Camera.main == null) return;
         Vector2 mouseDelta = Mouse.current.delta.ReadValue();
         // Atualiza apenas a rotação horizontal
         if (RotateCam)

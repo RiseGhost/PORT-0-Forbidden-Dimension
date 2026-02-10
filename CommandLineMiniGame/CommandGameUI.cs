@@ -14,6 +14,7 @@ public class CommandGameUI : MonoBehaviour
     [SerializeField] private Texture2D[] DestroySprites;
     private List<string> inputs = new List<string>();
     private VisualElement root;
+    private VisualElement FinishedWindow;
     private Label inputCommands;
     private Label scoreLabel;
     private float currentScore = 0;
@@ -26,14 +27,16 @@ public class CommandGameUI : MonoBehaviour
     void Start()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
+        FinishedWindow = root.Q<VisualElement>("Finished");
         if (root == null) Destroy(this.gameObject);
         inputCommands = root.Q<Label>("Inputs");
-        scoreLabel = root.Q<Label>("Score");
+        scoreLabel = root.Q<Label>("ScorePoints");
         commandWord.setVisualRoot(root);
         ApplyOSColorTheme();
         ApplyDesktopTheme();
         cleanInputs();
         StartCoroutine(SpawnPhasers());
+        DontDestroyOnLoad(this.gameObject);
     }
 
     void LateUpdate()
@@ -99,25 +102,54 @@ public class CommandGameUI : MonoBehaviour
             commandWord.SpawnWord();
             yield return new WaitForSeconds(2f);
         }
+        //Level finished
+        yield return new WaitForSecondsRealtime(1f);
+        if (FinishedWindow != null)
+        {
+            FinishedWindow.style.display = DisplayStyle.Flex;
+            FinishedWindow.Q<Label>("Score").text = commandWord.getScore().ToString();
+        }
+        while (true)
+        {
+            yield return null;
+            if (Keyboard.current[Key.Q].wasPressedThisFrame)
+                WordRushImplement.Close();
+            if (Keyboard.current[Key.R].wasPressedThisFrame)
+            {
+                commandWord.reset();
+                FinishedWindow.style.display = DisplayStyle.None;
+                StartCoroutine(SpawnPhasers());
+                inputs.Clear();
+                inputs.Add("");
+                break;
+            }
+        }
     }
 
     private void ApplyOSColorTheme()
     {
+        if (root == null) return;
         var os = OSTable.getSystem(operatingSystemName, osTable);
         if (os == null) Destroy(this.gameObject);
         OperatingSystem operatingSystem = (OperatingSystem)os;
-        Label scoreL = root.Q<Label>("Score");
+        Debug.Log("Scrole Label Before");
+        Debug.Log("Scrole Label After");
+        Color TerminalColor = operatingSystem.ThirdColor;
+        TerminalColor.a = 0.7f;
         root.Q<VisualElement>("HistoryTittleBar").style.backgroundColor = operatingSystem.SecondaryColor;
         root.Q<VisualElement>("TerminalTittleBar").style.backgroundColor = operatingSystem.SecondaryColor;
-        root.Q<VisualElement>("TerminalBackground").style.backgroundColor = operatingSystem.PrimaryColor;
-        scoreL.style.color = (Int16.Parse(scoreL.text) != commandWord.getScore()) ? operatingSystem.ThirdColor : operatingSystem.TextColor;
-        root.Q<ScrollView>("History").style.backgroundColor = operatingSystem.PrimaryColor;
-        inputCommands.style.backgroundColor = operatingSystem.PrimaryColor;
+        root.Q<VisualElement>("TerminalBackground").style.backgroundColor = TerminalColor;
+        if (FinishedWindow != null)
+            FinishedWindow.Q<VisualElement>("ScoreTittleBar").style.backgroundColor = operatingSystem.SecondaryColor;
+        if (scoreLabel != null) scoreLabel.style.color = (Int16.Parse(scoreLabel.text) != commandWord.getScore()) ? operatingSystem.PrimaryColor : operatingSystem.SecondaryColor;
+        root.Q<ScrollView>("History").style.backgroundColor = TerminalColor;
+        inputCommands.style.backgroundColor = TerminalColor;
         inputCommands.style.color = operatingSystem.TextColor;
     }
 
     private void ApplyDesktopTheme()
     {
+        if (root == null) return;
         var os = OSTable.getSystem(operatingSystemName, osTable);
         if (os == null) Destroy(this.gameObject);
         OperatingSystem operatingSystem = (OperatingSystem)os;
@@ -127,7 +159,7 @@ public class CommandGameUI : MonoBehaviour
         root.Q<VisualElement>("Desktop").Add(dekstop);
     }
 
-    public void setSystemName(OperatingSystemName name)
+    public void setOperatingSystem(OperatingSystemName name)
     {
         this.operatingSystemName = name;
         ApplyOSColorTheme();
@@ -143,5 +175,10 @@ public class CommandGameUI : MonoBehaviour
         }
         root.Q<VisualElement>("SpawnWords").Remove(visualElement);
         //root.Remove(visualElement);
+    }
+
+    public void setPhrases(List<TeachPhrases> phrases)
+    {
+        commandWord.setPhrases(phrases);
     }
 }

@@ -10,6 +10,7 @@ public class WarringServerCanvas : MonoBehaviour
 {
     void FixedUpdate()
     {
+        if (Camera.main == null) return;
         transform.rotation = Camera.main.transform.rotation;
     }
 }

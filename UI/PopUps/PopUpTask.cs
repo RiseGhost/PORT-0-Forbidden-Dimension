@@ -27,7 +27,9 @@ public class PopUpTask : MonoBehaviour
     [SerializeField] private GameObject MainContent;
     [SerializeField] private Slider SliderOk, SliderCancel;
     [SerializeField] private TextMeshProUGUI LabelCancel, LabelOk;
-
+    [SerializeField] private ServerTaskSelect serverTaskSelect;
+    private Task task = null;
+    
     void Start()
     {
         if (SliderOk == null || SliderCancel == null || LabelCancel == null || LabelOk == null)
@@ -44,6 +46,11 @@ public class PopUpTask : MonoBehaviour
     {
         if (SliderOk.value >= 100f)
         {
+            if (serverTaskSelect != null)
+            {
+                ServerTaskSelect taskSelect = Instantiate(serverTaskSelect,Vector3.zero,Quaternion.identity);
+                taskSelect.setTask(task);
+            }
             Destroy(this.gameObject);
         }
         else if (SliderCancel.value >= 100f)
@@ -69,5 +76,6 @@ public class PopUpTask : MonoBehaviour
     {
         PopContentTask pop = Instantiate(BuildContentPopUp.Build(),MainContent.transform).GetComponent<PopContentTask>();
         pop.setTask(task);
+        this.task = task;
     }
 }

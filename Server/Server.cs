@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -8,6 +10,7 @@ public class Server : SaveItem
     public ServerStatusStruct serverStatus;
     public PositionStatus positionStatus = new PositionStatus();
     public string resource = "ServerBox";
+    public List<TaskImplement> tasks = new List<TaskImplement>();
 
     public Server(){}
 
@@ -41,9 +44,22 @@ public class Server : SaveItem
         return false;
     }
 
+    public float getAvailableTFLOPS()
+    {
+        var taskFlops = tasks.Select(x => x.Tflops).Sum();
+        return serverStatus.cpu.getMaxTFLOPS(serverStatus.fanStatus.GetValue()) - taskFlops;
+    }
+
     public void Update()
     {
-        
+        StorageManager storageManager = GameObject.FindAnyObjectByType<StorageManager>();
+        storageManager.UpdateData(this);
+    }
+
+    public void addTask(TaskImplement task)
+    {
+        tasks.Add(task);
+        Update();
     }
     
     public override string ToString()
@@ -51,6 +67,21 @@ public class Server : SaveItem
         return "";
     }
 
+    public float getAvailableSpace()
+    {
+        List<float> space_disk = serverStatus.disks.Select((x) => x.GetValue().TotalSpace).ToList();
+        float space = 0f;
+        foreach (var item in space_disk)
+        {
+            space += item;
+        }
+        foreach (var task in tasks)
+        {
+            space -= task.getSpace();
+        }
+        return space;
+    }
+    
     public void Save()
     {
         StorageManager storageManager = GameObject.FindGameObjectWithTag("StorageManager").GetComponent<StorageManager>();

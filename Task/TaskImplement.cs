@@ -5,12 +5,13 @@ using UnityEngine.InputSystem;
 [System.Serializable]
 public class TaskImplement : Task
 {
-    [SerializeField] private float Tflops = 0f;
-    [SerializeField] private string Name = "";
-    [SerializeField] private TaskDifficulty Difficulty = TaskDifficulty.Very_Easy;
-    [SerializeField] private TaskDescription taskDescription;
-    [SerializeField] private MiniGameTechnologyAreaGroup technologyGroup;
-    [SerializeField] private MiniGameType miniGameType = MiniGameType.WordRush;
+    [SerializeField] public float Tflops = 0f;
+    [SerializeField] public string Name = "";
+    [SerializeField] public TaskDifficulty Difficulty = TaskDifficulty.Very_Easy;
+    [SerializeField] public TaskDescription taskDescription;
+    [SerializeField] public MiniGameTechnologyAreaGroup technologyGroup;
+    [SerializeField] public MiniGameType miniGameType = MiniGameType.WordRush;
+    [SerializeField] public float Space = 10f;
     private Client client = null;
 
     public float getTflops(){ return Tflops;}
@@ -30,7 +31,8 @@ public class TaskImplement : Task
 
     public MiniGameTechnologyAreaGroup getTechnologyAreaGroup() { return technologyGroup; }
     public Client GetClient(){ return client; }
-
+    public float getSpace(){ return Space;}
+    
     virtual public void Launch(MonoBehaviour anchor)
     {
         NotificationTask noti = new NotificationTask(Name,taskDescription.description,Key.Tab,Key.X,anchor);
