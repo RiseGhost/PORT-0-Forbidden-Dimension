@@ -12,6 +12,17 @@ public struct ServerChoiceCamera
     public Quaternion angle;
 }
 
+[System.Serializable]
+public struct ServerLostCard
+{
+    public TextMeshProUGUI CurrentTFLOPS;
+    public TextMeshProUGUI AfterTFLOPS;
+    public TextMeshProUGUI CurrentSpace;
+    public TextMeshProUGUI AfterSpace;
+    public GameObject gameobject;
+    public RawImage arrow;
+}
+
 public class ServerTaskSelect : MonoBehaviour
 {
     private ServerGameObject[] servers;
@@ -22,6 +33,7 @@ public class ServerTaskSelect : MonoBehaviour
     [SerializeField] private ToggleGroup group;
     [SerializeField] private ServerChoiceCamera camera;
     [SerializeField] private TaskSelectServerDescription serverDescriptionTemplate;
+    [SerializeField] private ServerLostCard lostCard;
     private Server server = null;
     private Button next_btn = null;
     private Task task = null;
@@ -29,6 +41,8 @@ public class ServerTaskSelect : MonoBehaviour
 
     void Start()
     {
+        if (lostCard.gameobject != null) lostCard.gameobject.SetActive(false);
+        if (lostCard.arrow != null) lostCard.gameobject.SetActive(false);
         if (button_template == null || Buttons_Container == null)
         {
             Destroy(this.gameObject);
@@ -85,6 +99,15 @@ public class ServerTaskSelect : MonoBehaviour
                 ServerTaskButton toggle = group.ActiveToggles().First().GetComponent<ServerTaskButton>();
                 server = toggle.getData().server;
                 CleanContainer();
+                if (lostCard.gameobject != null)
+                {
+                    lostCard.gameobject.SetActive(true);
+                    lostCard.arrow.gameObject.SetActive(true);
+                    lostCard.CurrentTFLOPS.text = server.getAvailableTFLOPS().ToString();
+                    lostCard.CurrentSpace.text = server.getAvailableSpace().ToString();
+                    lostCard.AfterTFLOPS.text = (server.getAvailableTFLOPS() - task.getTflops()).ToString();
+                    lostCard.AfterSpace.text = (server.getAvailableSpace() - task.getSpace()).ToString();
+                }
                 TaskSelectServerDescription serverDescription = Instantiate(this.serverDescriptionTemplate,Buttons_Container.transform).GetComponent<TaskSelectServerDescription>();
                 serverDescription.setServer(toggle.getData().server);
                 Button confirm_btn = Instantiate(next_btn_template, Buttons_Container.transform).GetComponent<Button>();
@@ -100,9 +123,10 @@ public class ServerTaskSelect : MonoBehaviour
                 back_btn.GetComponentInChildren<TextMeshProUGUI>().text = "Back";
                 back_btn.onClick.AddListener(() =>
                 {
+                    if (lostCard.gameobject != null) lostCard.gameobject.SetActive(false);
+                    if (lostCard.arrow != null) lostCard.arrow.gameObject.SetActive(false);
                     CleanContainer();
                     ListServer();
-                    //GetComponentInChildren<FixedSelect>().setDefaultIndex(0);
                 });
                 GetComponentInChildren<FixedSelect>().setDefaultIndex(1);
             });

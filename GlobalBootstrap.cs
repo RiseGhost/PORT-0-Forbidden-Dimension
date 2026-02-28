@@ -9,6 +9,9 @@ public class GlobalBootstrap
         pause.AddComponent<PauseMenu>();
         GameObject storage = new GameObject();
         storage.AddComponent<StorageManager>();
+        new MoneyBank().Start();
+        Application.targetFrameRate = 60;
+        Application.quitting += () => { MoneyBank.Exit(); };
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

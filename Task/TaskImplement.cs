@@ -12,6 +12,7 @@ public class TaskImplement : Task
     [SerializeField] public MiniGameTechnologyAreaGroup technologyGroup;
     [SerializeField] public MiniGameType miniGameType = MiniGameType.WordRush;
     [SerializeField] public float Space = 10f;
+    [SerializeField] public PromisePay promisePay;
     private Client client = null;
 
     public float getTflops(){ return Tflops;}

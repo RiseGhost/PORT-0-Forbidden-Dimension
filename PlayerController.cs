@@ -51,6 +51,8 @@ public class PlayerController : MonoBehaviour
         if (Keyboard.current[Key.H].wasPressedThisFrame)
         {
             StorageManager.DeletedStorage();
+            MoneyBank.Reset();
+            BankAccount.Reset(Application.persistentDataPath);
             new NotificationDefault("Game Save System","All storage entities are deleted.").Show();
         }
         if (CreateServerBook != null && Keyboard.current[Key.F].wasPressedThisFrame && currentServerBook == null)

@@ -59,6 +59,7 @@ public class Server : SaveItem
     public void addTask(TaskImplement task)
     {
         tasks.Add(task);
+        MoneyBank.addPromisePay(task.promisePay);
         Update();
     }
     
