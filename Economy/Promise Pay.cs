@@ -1,3 +1,5 @@
+using System;
+
 public enum PayGroup
 {
     Expense,
@@ -22,4 +24,5 @@ public struct PromisePay
     public float PeriodicValue;
     public PayGroup group;
     public PayType type;
+    public string dataString;
 }

@@ -30,12 +30,23 @@ public class MoneyBank
             PromisePayList save = JsonUtility.FromJson<PromisePayList>(File.ReadAllText(pathPay));
             if (save != null)
                 promisePayList = save;
+            else promisePayList.promises.Add(getDefaultEnergy());
         }
         catch (Exception e) {}
         
         Thread t = new Thread(Save);
         t.IsBackground = true;
         t.Start();
+    }
+
+    private static PromisePay getDefaultEnergy()
+    {
+        PromisePay energy = new PromisePay();
+        energy.payrate = 3600f;
+        energy.PeriodicValue = -35f;
+        energy.type = PayType.Energy;
+        energy.dataString = DateTime.Now.ToString();
+        return energy;
     }
     
     public static void Exit()
@@ -51,7 +62,6 @@ public class MoneyBank
             {
                 for (int index = 0; index < promisePayList.promises.Count; index++)
                 {
-                    PrintPromise(promisePayList.promises[index]);
                     PromisePay pay = promisePayList.promises[index];
                     pay.currentrate += 0.2f;
                     if (pay.currentrate > pay.payrate)
@@ -74,8 +84,10 @@ public class MoneyBank
 
     public static void addPromisePay(PromisePay pay)
     {
+        PromisePay newPay = pay;
+        newPay.dataString = DateTime.Now.ToString();
         BankAccount.getCurrent(path).AddAmount(pay.StartValue,path);
-        promisePayList.promises.Add(pay);
+        promisePayList.promises.Add(newPay);
     }
 
     public static void removePromisePay(PromisePay pay)
@@ -98,6 +110,7 @@ public class MoneyBank
     public static void Reset()
     {
         promisePayList.promises.Clear();
+        promisePayList.promises.Add(getDefaultEnergy());
     }
     
     public static List<PromisePay> GetPromises()

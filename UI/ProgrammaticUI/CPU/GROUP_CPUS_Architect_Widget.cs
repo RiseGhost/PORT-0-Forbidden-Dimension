@@ -3,7 +3,7 @@ using UnityEngine;
 public class GROUP_CPUS_Architect_Widget : GroupToggle<CPUArchitectStatus>
 {
     [SerializeField] UI_CPU_Architect_WIDGET template;
-    void Start()
+    void Awake()
     {   
         bool SelectChild = false;
         foreach (var cpu in Status)

@@ -42,10 +42,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current[Key.Q].wasPressedThisFrame)
-        {
-            //Instantiate(serverGameObject, transform.position + new Vector3(0,0,-3f), Quaternion.identity);
-        }
         if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null)
             return;
         if (Keyboard.current[Key.H].wasPressedThisFrame)

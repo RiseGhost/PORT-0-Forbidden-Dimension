@@ -22,6 +22,16 @@ public class Server : SaveItem
         server.GetComponent<ServerGameObject>().Init(this);
         Debug.Log("Server Create, status -> " + JsonUtility.ToJson(serverStatus));
         Save();
+        PromisePay serverPay = new PromisePay();
+        serverPay.PeriodicValue = 0f;
+        serverPay.group = PayGroup.Expense;
+        serverPay.payrate = 50000f;
+        serverPay.type = PayType.Hardware;
+        serverPay.StartValue = -1 * (serverStatus.cpu.getStatus().getPrice() 
+                               + serverStatus.fanStatus.GetValue().Price 
+                               + serverStatus.motherBoardStatus.GetValue().Price 
+                               + serverStatus.disks.Select(x => x.GetValue().Price).Sum());
+        MoneyBank.addPromisePay(serverPay);
     }
 
     public void Load(string json)

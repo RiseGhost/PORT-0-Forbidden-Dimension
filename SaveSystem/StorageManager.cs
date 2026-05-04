@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[SerializeField]
+[System.Serializable]
 public class DataRoot
 {
     public string ID;

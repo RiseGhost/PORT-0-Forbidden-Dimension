@@ -3,7 +3,7 @@ using UnityEngine;
 public class GROUP_CPUS_Mark_Widget : GroupToggle<CPUMarkStatus>
 {
     [SerializeField] private UI_CPU_MARK_WIDGET template;
-    void Start()
+    void Awake()
     {
         foreach (var cpu in Status)
         {
