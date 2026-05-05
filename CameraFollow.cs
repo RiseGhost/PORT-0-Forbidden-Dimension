@@ -41,11 +41,13 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
-        if (Camera.main == null) return;
+        if (Camera.main == null || Camera.main.gameObject.activeInHierarchy == false) return;
         if (scrollAction == null) return;
         Vector2 scroll = scrollAction.ReadValue<Vector2>();
         zoom += scroll.y * Time.deltaTime * zoom_sensitivity;
-        GameObject.FindGameObjectWithTag("Teste").GetComponent<TextMeshProUGUI>().text = scroll.ToString();
+        GameObject teste = GameObject.FindGameObjectWithTag("Teste");
+        if (teste == null) return;
+        teste.GetComponent<TextMeshProUGUI>().text = scroll.ToString();
         if (distance < min_zoom) zoom = min_zoom;
         if (distance > max_zoom) zoom = max_zoom;
         Camera.main.orthographicSize = zoom;
@@ -53,15 +55,15 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        if (Camera.main == null) return;
+        if (Camera.main == null || Camera.main.gameObject.activeInHierarchy == false) return;
         Vector2 mouseDelta = Mouse.current.delta.ReadValue();
         // Atualiza apenas a rotação horizontal
         if (RotateCam)
             yaw += mouseDelta.x * sensitivity;
 
         // Move suavemente a câmara
-        camTrans.parent.position = transform.position + Quaternion.Euler(0,yaw,0) * new Vector3(-distance,distance * 0.7f,-distance);
-        FollowPos = Vector3.Lerp(FollowPos,transform.position,Time.deltaTime * followSpeed);
+        camTrans.parent.position = transform.position + Quaternion.Euler(0,yaw + 90,0) * new Vector3(-distance,distance * 0.7f,-distance);
+        FollowPos = Vector3.Lerp(FollowPos,transform.position + Vector3.up * 3f,Time.deltaTime * followSpeed);
         camTrans.LookAt(FollowPos);
     }
 

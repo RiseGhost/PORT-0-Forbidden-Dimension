@@ -135,7 +135,7 @@ public class ServerTaskSelect : MonoBehaviour
         if (cancel_btn_template != null)
         {
             Button cancel_btn = Instantiate(cancel_btn_template,Buttons_Container.transform).GetComponent<Button>();
-            cancel_btn.onClick.AddListener(() => { Destroy(this.gameObject);});
+            cancel_btn.onClick.AddListener(() => { Destroy(this.gameObject); TaskServer.Lock = false; });
         }
     }
 

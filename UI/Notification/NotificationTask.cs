@@ -20,4 +20,10 @@ public class NotificationTask : NotificationOkCancel
         var pop = MonoBehaviour.Instantiate(popup,Vector3.zero,Quaternion.identity);
         pop.SetTask(task);
     }
+
+    public override void Destroy()
+    {
+        if (this.Cancel.value >= 95f) TaskServer.Lock = false;
+        base.Destroy();
+    }
 }

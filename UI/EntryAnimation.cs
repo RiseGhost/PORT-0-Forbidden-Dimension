@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class EntryAnimation : MonoBehaviour
 {
+    [SerializeField] private GameObject Options;
     private RawImage rawImage;
     private Texture2D[] frames;
     private AudioSource audioSource;
@@ -40,6 +41,7 @@ public class EntryAnimation : MonoBehaviour
             {
                 audioSource.Play();
                 audioSource.time = 4f;
+                if (Options != null) Options.SetActive(false);
             }
         }
         else
@@ -47,7 +49,7 @@ public class EntryAnimation : MonoBehaviour
             sense = -1;
             if (audioSource.isPlaying)
                 audioSource.Stop();
-            
+            if (Options != null) Options.SetActive(true);
         }
     }
 
@@ -58,7 +60,7 @@ public class EntryAnimation : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.016f);
             if (sense == -1 && FramesIndex > 0) FramesIndex--;
             if (sense == 1 && FramesIndex < frames.Length - 1) FramesIndex++;
-            if (FramesIndex == frames.Length - 1) SceneManager.LoadScene("TesteArea");
+            if (FramesIndex == frames.Length - 1) SceneManager.LoadScene("Teste FBX");
             rawImage.texture = frames[FramesIndex];
         }
     }

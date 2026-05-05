@@ -68,6 +68,7 @@ public class Server : SaveItem
 
     public void addTask(TaskImplement task)
     {
+        TaskServer.Lock = false;
         tasks.Add(task);
         MoneyBank.addPromisePay(task.promisePay);
         Update();

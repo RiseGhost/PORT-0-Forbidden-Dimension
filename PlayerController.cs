@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] MoveStatus moveStatus;
     [SerializeField] ServerConfigBook CreateServerBook;
+    public static bool Lock = false;
     private ServerConfigBook currentServerBook = null;
     public InputAction action;
     private bool canJump = false;
@@ -36,12 +37,18 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator teste()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(20);
         new TaskServer(TaskDifficulty.Very_Easy,this);
+        while (true)
+        {
+            yield return new WaitForSeconds(15);
+            new TaskServer(TaskDifficulty.Very_Easy,this);
+        }
     }
 
     void Update()
     {
+        if (Lock) return;
         if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null)
             return;
         if (Keyboard.current[Key.H].wasPressedThisFrame)
@@ -59,6 +66,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (Lock) return;
         if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null)
             return;
         if (Camera.main == null) return;

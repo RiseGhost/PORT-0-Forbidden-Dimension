@@ -35,7 +35,7 @@ public abstract class NotificationImplement : Notification
         NotificationServer.AddNotification(this);
     }
 
-    public void Destroy()
+    public virtual void Destroy()
     {
         NotificationServer.RemoveNotification(this);
     }

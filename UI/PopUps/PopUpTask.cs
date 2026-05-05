@@ -55,6 +55,7 @@ public class PopUpTask : MonoBehaviour
         }
         else if (SliderCancel.value >= 100f)
         {
+            TaskServer.Lock = false;
             Destroy(this.gameObject);
         }
         else

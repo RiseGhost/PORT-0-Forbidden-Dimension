@@ -9,12 +9,12 @@ public class GROUP_CPUS_Architect_Widget : GroupToggle<CPUArchitectStatus>
         foreach (var cpu in Status)
         {
             var c = Instantiate(template, transform).GetComponent<UI_CPU_Architect_WIDGET>();
+            c.getWidget().group = getWidget();
             c.setStatus(cpu);
             c.setSelectColor(selectColor);
             c.setDefaultColor(defaultColor);
             c.setSelectTextColor(selectTextColor);
             c.setDefaultTextColor(defaultTextColor);
-            c.getWidget().group = getWidget();
             if (AutoSelectChild && !SelectChild)
             {
                 c.getWidget().Select();
