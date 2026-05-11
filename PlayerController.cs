@@ -27,6 +27,11 @@ public class PlayerController : MonoBehaviour
         action.Enable();
     }
 
+    void OnDisable()
+    {
+        action.Disable();
+    }
+
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();

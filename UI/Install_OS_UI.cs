@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,11 +14,12 @@ public class Install_OS_UI : MonoBehaviour
 {
     [SerializeField] private Install_OS_UI NextPage;
     [SerializeField] private Button NextButtom;
-    [SerializeField] private TextMeshProUGUI LabelOSName, LabelOSDescription, WarringLabel;
+    [SerializeField] private TextMeshProUGUI LabelOSName_Installing, LabelOSName, LabelOSDescription, WarringLabel;
     [SerializeField] private Image panel;
-    [SerializeField] private RawImage Background;
+    [SerializeField] private RawImage Background, OS_Logo;
     [SerializeField] private bool Install = false; // If the value are true, install de OS in server
     [SerializeField] private TMP_InputField hostname, password;
+    [SerializeField] private GameObject hiddenContent;
     private Server server;
 
     void Start()
@@ -33,6 +35,20 @@ public class Install_OS_UI : MonoBehaviour
         {
             LabelOSName.text = os.DisplayName;
             LabelOSName.color = os.TextColor;
+        }
+        if (LabelOSName_Installing != null)
+        {
+            LabelOSName_Installing.text = os.DisplayName;
+            LabelOSName_Installing.color = os.PrimaryColor;
+        }
+        if (OS_Logo != null && os.icon != null)
+        {
+            OS_Logo.texture = os.icon;
+        }
+        else {
+            Debug.LogWarning("OS icon is null for " + os.DisplayName);
+            Debug.LogWarning("Os_logo is null: " + (OS_Logo == null));
+            Debug.LogWarning("os.icon is null: " + (os.icon == null));
         }
         if (LabelOSDescription != null)
         {
@@ -50,6 +66,7 @@ public class Install_OS_UI : MonoBehaviour
         {
             Background.color = os.PrimaryColor;
         }
+        if (hiddenContent != null) StartCoroutine(ShowContent());
     }
 
     public void NextButtomFunc()
@@ -82,11 +99,24 @@ public class Install_OS_UI : MonoBehaviour
                 storageManager.UpdateData(server);
                 NotificationServer.AddNotification(new NotificationDefault("OS Install","OS has been installed successfully."));
             }
+            Debug.Log("NextPage is null, closing the Install_OS_UI.");
             Destroy(this.gameObject);
             return;
         }
         Install_OS_UI UI = Instantiate(NextPage,Vector3.zero,Quaternion.identity);
         UI.setServer(server);
         Destroy(this.gameObject);
+    }
+
+    private IEnumerator ShowContent()
+    {
+        if (hiddenContent != null) hiddenContent.SetActive(false);
+        yield return new WaitForSeconds(2f);
+        if (hiddenContent != null) hiddenContent.SetActive(true);
+    }
+
+    public Server GetServer()
+    {
+        return server;
     }
 }

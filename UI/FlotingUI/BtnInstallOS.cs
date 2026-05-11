@@ -41,6 +41,7 @@ public class BtnInstallOS : MonoBehaviour
             Install_OS_UI UI = Instantiate(InstallUI,Vector2.zero,Quaternion.identity);
             UI.setServer(server);
             value = 0f;
+            Destroy(transform.parent.gameObject);
         }
     }
 }

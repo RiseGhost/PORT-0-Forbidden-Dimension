@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
+public enum cameraType { Main, ServerSelect, Combat }
+
 [System.Serializable]
 public struct CameraEntry
 {
     public Camera camera;
-    public bool is_Server_Select;
+    public cameraType type;
 }
 
 public class CameraSwitch : MonoBehaviour
@@ -24,7 +26,7 @@ public class CameraSwitch : MonoBehaviour
             cameras[i].camera.gameObject.SetActive(false);
         }
 
-        List<CameraEntry> focus = cameras.Where(x => x.is_Server_Select).ToList();
+        List<CameraEntry> focus = cameras.Where(x => x.type == cameraType.ServerSelect).ToList();
         if (focus.Count == 0) return;
         Focus_Camera = focus.First().camera;
     }
@@ -52,10 +54,20 @@ public class CameraSwitch : MonoBehaviour
         return Focus_Camera;
     }
 
+    public Camera Switch_Combat_Camera()
+    {
+        Camera combatCamera = cameras.Where(x => x.type == cameraType.Combat).ToList().First().camera;
+        if (combatCamera == null) return null;
+        combatCamera.gameObject.SetActive(true);
+        cameras.Where(x => x.type == cameraType.Main).ToList().First().camera.gameObject.SetActive(false);
+        return combatCamera;
+    }
+
     public void Switch_main_camera()
     {
-        cameras.First().camera.gameObject.SetActive(true);
+        cameras.Where(x => x.type == cameraType.Main).ToList().First().camera.gameObject.SetActive(true);
         if (Focus_Camera == null) return;
         Focus_Camera.gameObject.SetActive(false);
+        cameras.Where(x => x.type != cameraType.Main).ToList().ForEach(x => x.camera.gameObject.SetActive(false));
     }
 }
